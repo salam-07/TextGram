@@ -25,7 +25,7 @@ app.config['SECRET_KEY'] = '8001fcf07d8a7ed4208c4a91f5ca0782'
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('index.html', posts=posts)
+    return render_template('index.html', posts=posts, title="Scroll Latest")
 
 # about page route
 @app.route('/about')

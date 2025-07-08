@@ -12,6 +12,7 @@ Echo is a simple web platform where users can interact with each other by creati
 - Like any 'echos' you want!
 - No algorithm! Echo doesn't track your personal activity! Choose your own 'scroll' using Echo Tags!
 - Why stick to one, make several 'scrolls', or homepages, by grouping tags.
+- Create 'Private Scrolls' or 'Group Scrolls' and add your friends!
 - Have a healthy, private social media!
 
 On 'Echo', you can share jokes, memes, poetry, code, advice, rants, letters, and so much more!

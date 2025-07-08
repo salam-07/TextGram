@@ -1,6 +1,6 @@
 # Echo
 
-Echo is a simple web platform where users can interact with each other by creating and sharing text-based posts. The goal is to offer a clean, minimal environment for text discussions without the distractions of images or ads. Moreover, TextGram is privacy-focused, so no emails and personal information required to sign-up!
+Echo is a simple web platform where users can interact with each other by creating and sharing text-based posts. The goal is to offer a clean, minimal environment for text discussions without the distractions of images or ads. Moreover, Echo is privacy-focused, so no emails and personal information required to sign-up!
 
 
 ## Features

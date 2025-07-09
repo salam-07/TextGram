@@ -1,7 +1,7 @@
 from flask import render_template, url_for, redirect, flash
-from echo import app
-from echo.models import User, Post
-from echo.forms import RegistrationForm, LoginForm
+from echoapp import app, db, bcrypt
+from echoapp.models import User, Post
+from echoapp.forms import RegistrationForm, LoginForm
 
 # dummy data is a list of dictionaries
 posts = [
@@ -33,8 +33,12 @@ def about():
 def register():
     form  = RegistrationForm()
     if form.validate_on_submit():
-        flash(f'Account Created for {form.username.data}!', 'success')
-        return redirect(url_for('home'))
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'You are now part of Echo! Log in to continue.', 'success')
+        return redirect(url_for('login'))
     return render_template('register.html', title="Register", form=form)
 
 @app.route('/login', methods=['POST', 'GET'])

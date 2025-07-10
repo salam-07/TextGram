@@ -9,10 +9,10 @@
         </div>
     </div>
             <div class="content-section">
-        <form method="POST" action="">
+        <form method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Join Today</legend>
+                <legend class="border-bottom mb-4">Update Info</legend>
 
 
                 <div class="form-group">
@@ -27,8 +27,20 @@
                         </div>
 
                     {% else %}
-                        {{ form.username(class="form-control form-control-lg") }}
+                        {{ form.username(class="form-control form-control-lg mb-3") }}
                     {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.picture.label(class="mb-2") }} </br>
+                    {{ form.picture(class="form-control-file") }}
+
+                    {% if form.picture.errors %}
+                        {% for error in form.picture.errors %}
+                                <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+                    {% endif %}
+
                 </div>
 
             </fieldset>

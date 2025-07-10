@@ -1,31 +1,18 @@
-from flask import render_template, url_for, redirect, flash, request
+from flask import render_template, url_for, redirect, flash, request, abort
 from echoapp import app, db, bcrypt
 from echoapp.models import User, Post
-from echoapp.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from echoapp.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets
 import os
+from sqlalchemy import desc
 from PIL import Image
-
-# dummy data is a list of dictionaries
-posts = [
-    {
-        'author': 'Abdus Salam',
-        'content': 'This App is so lit',
-        'date_posted': '15:02, 8 July 2025'
-    }
-    ,
-    {
-        'author': 'Joe Goldberg',
-        'content': 'Hello, You',
-        'date_posted': '14:30, 4 July 2025'
-    }
-]
 
 # both routes lead to homepage
 @app.route('/')
 @app.route('/home')
 def home():
+    posts = Post.query.order_by(desc(Post.date_posted)).all()
     return render_template('index.html', posts=posts, title="Scroll Latest")
 
 # about page route
@@ -98,7 +85,20 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route('/post/echo')
+@app.route('/post/echo', methods=['GET', 'POST'])
 @login_required
 def new_echo():
-    render_template('create_echo.html', title='Share an Echo')
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Echo Made!', 'success')
+        return redirect(url_for('home'))
+    return render_template('create_echo.html', title='Make an Echo', form=form)
+
+@app.route("/post/<int:post_id>")
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', title=f'Echo by {post.author.username}', post=post)
+

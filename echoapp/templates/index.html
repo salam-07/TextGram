@@ -2,13 +2,13 @@
 
 {% block content %}
     {% for post in posts: %}
-        <article class="bg-white rounded shadow p-6 mb-6">
+        <article class="bg-gray-900 rounded-xl shadow-lg p-6 mb-6 border border-gray-800">
             <div>
                 <div class="flex items-center space-x-2 mb-2">
-                    <a class="font-semibold text-gray-700" href="#">{{ post.author.username }}</a>
+                    <a class="font-semibold text-cyan-400" href="#">{{ post.author.username }}</a>
                     <small class="text-gray-400">{{ post.date_posted.strftime('%H: %M on %d %b') }}</small>
                 </div>
-                <p class="text-gray-800">{{ post.content }}</p>
+                <p class="text-gray-200">{{ post.content }}</p>
             </div>
         </article>
     {% endfor %}

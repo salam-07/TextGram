@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="max-w-xl mt-24 mx-auto text-left">
-    <h1 class="text-5xl font-bold mb-4">echo</h1>
-    <p class="text-lg mb-8">Welcome to Echo! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-    <a href="{{ url_for('login') }}" class="inline-block px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition mr-2">Login</a>
-    <a href="{{ url_for('register') }}" class="inline-block px-6 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">Register</a>
+<div class="max-w-xl mt-24 mx-auto text-left bg-gray-900 rounded-xl shadow-lg p-10 border border-gray-800">
+    <h1 class="text-5xl font-bold mb-4 text-cyan-400">echo</h1>
+    <p class="text-lg mb-8 text-gray-300">Welcome to Echo! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+    <a href="{{ url_for('login') }}" class="inline-block px-6 py-2 bg-cyan-500 text-white rounded hover:bg-cyan-600 transition mr-2 font-semibold shadow">Login</a>
+    <a href="{{ url_for('register') }}" class="inline-block px-6 py-2 bg-gray-800 text-cyan-400 rounded hover:bg-gray-700 transition font-semibold shadow">Register</a>
 </div>
 {% endblock %}

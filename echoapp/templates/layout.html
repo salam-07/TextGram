@@ -3,75 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     {% if title %}
         <title>Echo - {{ title }}</title>
     {% else %}
         <title>TextGram</title>
     {% endif %}
 </head>
-<body>
-    <header class="site-header">
-        <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-            <div class="container">
-            <a class="navbar-brand mr-4" href="/">Echo</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link" href="{{ url_for('home') }}">Latest Scrolls</a>
-            <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
+<body class="bg-gray-100 min-h-screen">
+    <header>
+        <nav class="bg-gray-800 fixed w-full z-10 top-0 left-0 shadow">
+            <div class="container mx-auto flex flex-wrap items-center justify-between py-2 px-4">
+                <a class="text-white text-2xl font-bold mr-4" href="/">Echo</a>
+                <button class="text-gray-400 hover:text-white focus:outline-none md:hidden" aria-label="Toggle navigation" onclick="document.getElementById('navbarToggle').classList.toggle('hidden')">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                <div class="w-full md:flex md:items-center md:w-auto hidden md:block" id="navbarToggle">
+                    <div class="flex flex-col md:flex-row md:space-x-4">
+                        <a class="text-gray-300 hover:text-white px-3 py-2 rounded transition" href="{{ url_for('home') }}">Latest Scrolls</a>
+                        <a class="text-gray-300 hover:text-white px-3 py-2 rounded transition" href="{{ url_for('about') }}">About</a>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:space-x-4 mt-2 md:mt-0 md:ml-auto">
+                        {% if current_user.is_authenticated %}
+                        <a class="text-gray-300 hover:text-white px-3 py-2 rounded transition" href="{{ url_for('new_echo') }}">New Echo</a>
+                        <a class="text-gray-300 hover:text-white px-3 py-2 rounded transition" href="{{ url_for('account') }}">Account</a>
+                        <a class="text-gray-300 hover:text-white px-3 py-2 rounded transition" href="{{ url_for('logout') }}">Logout</a>
+                        {% else %}
+                        <a class="text-gray-300 hover:text-white px-3 py-2 rounded transition" href="{{ url_for('login') }}">Login</a>
+                        <a class="text-gray-300 hover:text-white px-3 py-2 rounded transition" href="{{ url_for('register') }}">Register</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-
-            <!-- Navbar Right Side -->
-            <div class="navbar-nav">
-            {% if current_user.is_authenticated %}
-            <a class="nav-item nav-link" href="{{ url_for('new_echo') }}">New Echo</a>
-            <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
-            <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
-
-            {% else %}
-            <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
-            <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
-            {% endif %}
-            </div>
-        </div>
-        </div>
-    </nav>
+        </nav>
     </header>
 
-    <main role="main" class="container">
-        <div class="row">
-        <div class="col-md-8">
-        {% with messages = get_flashed_messages(with_categories=True) %}
-            {% if messages %}
-                {% for category, message in messages: %}
-                    <div class="alert alert-{{ category }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
+    <main role="main" class="container mx-auto pt-24 px-4">
+        <div class="flex flex-col md:flex-row md:space-x-8">
+            <div class="md:w-2/3 w-full">
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        {% for category, message in messages: %}
+                            <div class="mb-4 px-4 py-3 rounded bg-{{ 'red-100 text-red-800' if category == 'danger' else 'green-100 text-green-800' }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                {% block content %}{% endblock %}
             </div>
-            <div class="col-md-4">
-            <div class="content-section">
-                <h3>Our Sidebar</h3>
-                <p class='text-muted'>You can put any information here you'd like.
-                <ul class="list-group">
-                    <li class="list-group-item list-group-item-light">Latest Posts</li>
-                    <li class="list-group-item list-group-item-light">Announcements</li>
-                    <li class="list-group-item list-group-item-light">Calendars</li>
-                    <li class="list-group-item list-group-item-light">etc</li>
-                </ul>
-                </p>
-            </div>
+            <div class="md:w-1/3 w-full mt-8 md:mt-0">
+                <div class="bg-white rounded shadow p-6">
+                    <h3 class="text-lg font-semibold mb-2">Our Sidebar</h3>
+                    <p class="text-gray-600 mb-4">You can put any information here you'd like.</p>
+                    <ul class="space-y-2">
+                        <li class="bg-gray-100 rounded px-3 py-2">Latest Posts</li>
+                        <li class="bg-gray-100 rounded px-3 py-2">Announcements</li>
+                        <li class="bg-gray-100 rounded px-3 py-2">Calendars</li>
+                        <li class="bg-gray-100 rounded px-3 py-2">etc</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

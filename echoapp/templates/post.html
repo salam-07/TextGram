@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 
 {% block content %}
-        <article class="media content-section">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="#">{{ post.author.username }}</a>
-                        <small class="text-muted">{{ post.date_posted.strftime('%H: %M on %d %b') }}</small>
-                 </div>
-                <p class="article-content">{{ post.content }}</p>
-             </div>
-        </article>
+    <article class="bg-white rounded shadow p-6 mb-6">
+        <div>
+            <div class="flex items-center space-x-2 mb-2">
+                <a class="font-semibold text-gray-700" href="#">{{ post.author.username }}</a>
+                <small class="text-gray-400">{{ post.date_posted.strftime('%H: %M on %d %b') }}</small>
+            </div>
+            <p class="text-gray-800">{{ post.content }}</p>
+        </div>
+    </article>
 {% endblock content %}

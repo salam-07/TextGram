@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-<div style="text-align: left; max-width: 600px; margin-top: 100px;">
-    <h1 style="font-size: 3em; font-weight: bold;">echo</h1>
-    <p style="font-size: 1.2em; margin-bottom: 2em;">Welcome to Echo! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-    <a href="{{ url_for('login') }}" class="btn btn-primary" style="margin-right: 10px;">Login</a>
-    <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+<div class="max-w-xl mt-24 mx-auto text-left">
+    <h1 class="text-5xl font-bold mb-4">echo</h1>
+    <p class="text-lg mb-8">Welcome to Echo! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+    <a href="{{ url_for('login') }}" class="inline-block px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition mr-2">Login</a>
+    <a href="{{ url_for('register') }}" class="inline-block px-6 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">Register</a>
 </div>
 {% endblock %}

@@ -4,6 +4,18 @@ body {
   margin-top: 5rem;
 }
 
+.main-bg {
+  background: #020202;
+}
+
+.nav-bg {
+  background: #070707;
+}
+
+.post-bg {
+  background: #060606;
+}
+
 h1, h2, h3, h4, h5, h6 {
   color: #444444;
 }

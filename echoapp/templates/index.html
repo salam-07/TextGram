@@ -1,15 +1,81 @@
-{% extends "layout.html" %}
 
+{% extends 'layout.html' %}
 {% block content %}
-    {% for post in posts: %}
-        <article class="post-bg rounded-xl shadow-lg p-6 mb-6 border border-gray-600">
+<div class="pt-4 pb-8">
+  <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-8 font-[Be_Vietnam_Pro] tracking-tight">Home</h1>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- Left Column: Trending Tags & Notifications -->
+    <div class="flex flex-col gap-8">
+      <!-- Trending Tags Box -->
+      <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800">
+        <h2 class="text-xl font-semibold text-white mb-4">Trending Tags</h2>
+        <div class="flex flex-wrap gap-2">
+          {% for tag in trending_tags %}
+            <span class="bg-gray-900 text-gray-200 px-3 py-1 rounded-full text-sm">#{{ tag }}</span>
+          {% else %}
+            <span class="text-gray-500">No trending tags</span>
+          {% endfor %}
+        </div>
+      </div>
+      <!-- Notifications Box -->
+      <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800">
+        <h2 class="text-xl font-semibold text-white mb-4">Notifications</h2>
+        <ul class="space-y-2">
+          {% for note in notifications %}
+            <li class="text-gray-300 text-sm">{{ note }}</li>
+          {% else %}
+            <li class="text-gray-500">No notifications</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <!-- Extra Box: Suggestions -->
+      <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800">
+        <h2 class="text-xl font-semibold text-white mb-4">Suggestions</h2>
+        <ul class="space-y-2">
+          {% for user in suggested_users %}
+            <li class="flex items-center gap-2">
+              <img src="{{ url_for('static', filename='profile_pics/' ~ user.image_file) }}" class="w-7 h-7 rounded-full border border-gray-700" alt="{{ user.username }}">
+              <span class="text-gray-200 text-sm">{{ user.username }}</span>
+            </li>
+          {% else %}
+            <li class="text-gray-500">No suggestions</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <!-- Center Column: New Post Box & Latest Posts -->
+    <div class="flex flex-col gap-8 md:col-span-2">
+      <!-- Make New Post Box -->
+      <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800 mb-4">
+        <h2 class="text-xl font-semibold text-white mb-4">Make a New Echo</h2>
+        <form method="POST" action="{{ url_for('new_echo') }}" class="flex flex-col gap-4">
+          <textarea name="content" rows="3" class="bg-gray-900 text-gray-100 rounded-lg p-3 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-white resize-none" placeholder="What's on your mind?" required></textarea>
+          <button type="submit" class="bg-white text-black font-semibold px-4 py-2 rounded-lg shadow hover:bg-gray-200 transition">Post</button>
+        </form>
+      </div>
+      <!-- Latest Posts -->
+      <div class="grid grid-cols-1 gap-6">
+        {% for post in latest_posts %}
+        <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800">
+          <div class="flex items-center gap-4 mb-2">
+            <img src="{{ url_for('static', filename='profile_pics/' ~ post.author.image_file) }}" class="w-10 h-10 rounded-full border border-gray-700" alt="{{ post.author.username }}">
             <div>
-                <div class="flex items-center space-x-2 mb-2">
-                    <a class="font-semibold text-gray-300" href="#">{{ post.author.username }}</a>
-                    <small class="text-gray-600">{{ post.date_posted.strftime('%H: %M on %d %b') }}</small>
-                </div>
-                <p class="text-gray-200">{{ post.content }}</p>
+              <span class="text-white font-semibold">{{ post.author.username }}</span>
+              <span class="text-gray-400 text-xs ml-2">{{ post.date_posted.strftime('%b %d, %Y') }}</span>
             </div>
-        </article>
-    {% endfor %}
-{% endblock content %}
+          </div>
+          <p class="text-gray-200 mb-4">{{ post.content }}</p>
+          <div class="flex gap-6 text-gray-400 text-sm">
+            <span class="hover:text-white cursor-pointer">Like</span>
+            <span class="hover:text-white cursor-pointer">Comment</span>
+            <span class="hover:text-white cursor-pointer">Share</span>
+          </div>
+        </div>
+        {% else %}
+        <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800 text-gray-500">No posts yet.</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

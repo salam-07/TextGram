@@ -1,13 +1,28 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <article class="bg-gray-900 rounded-xl shadow-lg p-6 mb-6 border border-gray-800">
-        <div>
-            <div class="flex items-center space-x-2 mb-2">
-                <a class="font-semibold text-cyan-400" href="#">{{ post.author.username }}</a>
-                <small class="text-gray-400">{{ post.date_posted.strftime('%H: %M on %d %b') }}</small>
+    <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800 w-full max-w-2xl mx-auto mt-8">
+        <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-lg font-bold text-white">{{ post.author.username[0]|upper }}</div>
+            <div>
+                <div class="text-white font-semibold">{{ post.author.username }}</div>
+                <div class="text-gray-400 text-xs">{{ post.date_posted.strftime('%H:%M %p · %b %d') }}</div>
             </div>
-            <p class="text-gray-200">{{ post.content }}</p>
         </div>
-    </article>
+        <div class="text-gray-200 text-base mb-4">{{ post.content }}</div>
+        <div class="flex items-center gap-3 text-gray-400 text-lg">
+            <!-- Like Button -->
+            <button class="hover:text-white transition text-xs">Like</button>
+            <!-- Comment Button -->
+            <button class="hover:text-white transition text-xs">Comment</button>
+            <!-- Options Icon (3 dots) -->
+            <button class="ml-auto hover:text-white transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle cx="6" cy="12" r="2" />
+                    <circle cx="12" cy="12" r="2" />
+                    <circle cx="18" cy="12" r="2" />
+                </svg>
+            </button>
+        </div>
+    </div>
 {% endblock content %}

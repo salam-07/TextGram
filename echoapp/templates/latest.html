@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row gap-8 w-full">
+    <!-- Feed Section -->
+    <div class="flex-1 w-full max-w-2xl mx-auto px-2 sm:px-4 md:px-0">
+        <!-- New Echo Field -->
+        <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800 w-full mb-8">
+            <form method="POST" action="{{ url_for('new_echo') }}">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-lg font-bold text-white">{{ current_user.username[0]|upper }}</div>
+                    <div>
+                        <div class="text-white font-semibold">{{ current_user.username }}</div>
+                    </div>
+                </div>
+                <textarea name="content" rows="1" class="w-full bg-black text-white rounded-xl p-3 mb-4 resize-none" placeholder="What's on your mind?"></textarea>
+                <div class="flex justify-end">
+                    <button type="submit" class="px-6 py-2 rounded-lg border-2 border-white text-white text-sm text-lg shadow transition bg-transparent hover:bg-white hover:text-black active:scale-95 duration-150">Post Echo</button>
+                </div>
+            </form>
+        </div>
+        <div class="flex flex-col gap-6">
+            {% for post in posts %}
+            <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800 w-full">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-lg font-bold text-white">{{ post.author.username[0]|upper }}</div>
+                    <div>
+                        <div class="text-white font-semibold">{{ post.author.username }}</div>
+                        <div class="text-gray-400 text-xs">{{ post.date_posted.strftime('%H:%M %p · %b %d') }}</div>
+                    </div>
+                </div>
+                <div class="text-gray-200 text-base mb-4">{{ post.content }}</div>
+                <div class="flex items-center gap-3 text-gray-400 text-lg">
+                    <!-- Like Button -->
+                    <button class="hover:text-white transition text-xs">Like</button>
+                    <!-- Comment Button -->
+                    <button class="hover:text-white transition text-xs">Comment</button>
+                    <!---View Post-->
+                    <a href="{{ url_for('post', post_id=post.id) }}"><button class="hover:text-white transition text-xs">View</button></a>
+                    <!-- Options Icon (3 dots) -->
+                    <button class="ml-auto hover:text-white transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <circle cx="6" cy="12" r="2" />
+                            <circle cx="12" cy="12" r="2" />
+                            <circle cx="18" cy="12" r="2" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Trends Sidebar -->
+    <aside class="hidden md:block w-72 py-8">
+        <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800">
+            <h3 class="text-white text-lg font-semibold mb-4">Trends for you</h3>
+            <ul class="flex flex-col gap-2">
+                <li><a href="#" class="text-gray-200 hover:text-white transition">#WebDevelopment</a></li>
+                <li><a href="#" class="text-gray-200 hover:text-white transition">#Music</a></li>
+                <li><a href="#" class="text-gray-200 hover:text-white transition">#Foodie</a></li>
+                <li><a href="#" class="text-gray-200 hover:text-white transition">#Technology</a></li>
+            </ul>
+        </div>
+    </aside>
+</div>
+{% endblock content %}

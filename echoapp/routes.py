@@ -14,12 +14,17 @@ def landing():
         return redirect(url_for('home'))
     return render_template('landing.html', title="Welcome to Echo")
 
-# both routes lead to homepage
 @app.route('/home')
 @login_required
 def home():
     posts = Post.query.order_by(desc(Post.date_posted)).all()
-    return render_template('index.html', posts=posts, title="Scroll Latest")
+    return render_template('index.html', latest_posts=posts, title="Echo Home")
+
+@app.route('/latest')
+@login_required
+def latest():
+    posts = Post.query.order_by(desc(Post.date_posted)).all()
+    return render_template('latest.html', posts=posts, title="Echo Home")
 
 # about page route
 @app.route('/about')

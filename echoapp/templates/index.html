@@ -1,73 +1,81 @@
 
 {% extends 'layout.html' %}
 {% block content %}
-<div class="pt-4 pb-8">
-  <h1 class="text-5xl md:text-6xl mb-8 font-vietnam">Home</h1>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-    <!-- Left Column: Trending Tags & Notifications -->
-    <div class="flex flex-col gap-8">
-      <!-- Trending Tags Box -->
-      <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800">
-        <h2 class="text-xl font-semibold text-white mb-4">Trending Tags</h2>
-        <div class="flex flex-wrap gap-2">
-          {% for tag in trending_tags %}
-            <span class="bg-gray-900 text-gray-200 px-3 py-1 rounded-full text-sm">#{{ tag }}</span>
-          {% else %}
-            <span class="text-gray-500">No trending tags</span>
-          {% endfor %}
-        </div>
-      </div>
-      <!-- Notifications Box -->
-      <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800">
-        <h2 class="text-xl font-semibold text-white mb-4">Notifications</h2>
-        <ul class="space-y-2">
+<div class="gap-2">
+  <h1 class="text-gray-100 text-6xl md:text-6xl font-playfair mb-6">Home</h1>
+  <div class="grid grid-cols-1 md:grid-cols-5 grid-rows-none md:grid-rows-5 gap-4 overflow-hidden">
+    <!-- 1. Notifications -->
+    <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800 col-span-1 md:col-span-2 row-span-1 flex flex-col">
+      <h2 class="text-xl font-semibold text-white mb-4">Notifications</h2>
+      <ul class="space-y-2">
+        {% if notifications and notifications|length > 0 %}
           {% for note in notifications %}
             <li class="text-gray-300 text-sm">{{ note }}</li>
-          {% else %}
-            <li class="text-gray-500">No notifications</li>
           {% endfor %}
-        </ul>
-      </div>
-      <!-- Extra Box: Suggestions -->
-      <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800">
-        <h2 class="text-xl font-semibold text-white mb-4">Suggestions</h2>
-        <ul class="space-y-2">
-          {% for user in suggested_users %}
-            <li class="flex items-center gap-2">
-              <span class="text-gray-200 text-sm">{{ user.username }}</span>
-            </li>
-          {% else %}
-            <li class="text-gray-500">No suggestions</li>
-          {% endfor %}
-        </ul>
-      </div>
+        {% else %}
+          <li class="text-gray-500">No notifications</li>
+        {% endif %}
+      </ul>
     </div>
-    <!-- Center Column: New Post Box & Latest Posts -->
-    <div class="flex flex-col gap-8 md:col-span-2">
-      <!-- Make New Post Box -->
-    
-      <!-- Latest Posts -->
-      <div class="grid grid-cols-1 gap-6">
-        {% for post in latest_posts %}
-        <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800">
-          <div class="flex items-center gap-4 mb-2">
-            <div>
-              <span class="text-white font-semibold">{{ post.author.username }}</span>
-              <span class="text-gray-400 text-xs ml-2">{{ post.date_posted.strftime('%b %d, %Y') }}</span>
-            </div>
-          </div>
-          <p class="text-gray-200 mb-4">{{ post.content }}</p>
-          <div class="flex gap-6 text-gray-400 text-sm">
-            <span class="hover:text-white cursor-pointer">Like</span>
-            <span class="hover:text-white cursor-pointer">Comment</span>
-            <span class="hover:text-white cursor-pointer">Share</span>
+    <!-- 2. New Echo Box -->
+    <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800 col-span-1 md:col-span-3 row-span-1 md:row-span-2">
+      <form method="POST" action="{{ url_for('new_echo') }}">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-lg font-bold text-white">{{ current_user.username[0]|upper }}</div>
+          <div>
+            <div class="text-white font-semibold">{{ current_user.username }}</div>
           </div>
         </div>
+        <textarea name="content" rows="1" class="w-full bg-black text-white rounded-xl p-3 mb-4 resize-none" placeholder="What's on your mind?"></textarea>
+        <div class="flex justify-end">
+          <button type="submit" class="px-6 py-2 rounded-lg border-2 border-white text-white text-sm text-lg shadow transition bg-transparent hover:bg-white hover:text-black active:scale-95 duration-150">Post Echo</button>
+        </div>
+      </form>
+    </div>
+    <!-- 3. Trending Tags -->
+    <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800 col-span-1 md:col-span-2 row-span-1 md:row-span-3 flex flex-col">
+      <h2 class="text-xl font-semibold text-white mb-4">Trending Tags</h2>
+      <div class="flex flex-wrap gap-2">
+        {% for tag in trending_tags %}
+          <span class="bg-gray-900 text-gray-200 px-3 py-1 rounded-full text-sm">#{{ tag }}</span>
         {% else %}
-        <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800 text-gray-500">No posts yet.</div>
+          <span class="text-gray-500">No trending tags</span>
         {% endfor %}
       </div>
     </div>
+    <!-- 4. Random Quote -->
+    <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800 col-span-1 md:col-span-1 row-span-1 md:row-span-6 flex items-center justify-center">
+      <blockquote class="text-gray-300 italic text-lg text-center">{{ random_quote or '“Echoes of thought shape the world.”' }}</blockquote>
+    </div>
+    <!-- 5. Latest Posts -->
+    <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800 col-span-1 md:col-span-2 row-span-1 md:row-span-20 flex flex-col gap-4">
+      <h2 class="text-xl font-semibold text-white mb-4">Latest Posts</h2>
+      {% for post in latest_posts %}
+        <div class="bg-black rounded-xl shadow p-4 border border-gray-700">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-base font-bold text-white">{{ post.author.username[0]|upper }}</div>
+            <div>
+              <div class="text-white font-semibold text-sm">{{ post.author.username }}</div>
+              <div class="text-gray-400 text-xs">{{ post.date_posted.strftime('%H:%M %p · %b %d') }}</div>
+            </div>
+          </div>
+          <div class="text-gray-200 text-sm mb-2">{{ post.content }}</div>
+          <div class="flex items-center gap-3 text-gray-400 text-xs">
+            <button class="hover:text-white transition">Like</button>
+            <button class="hover:text-white transition">Comment</button>
+            <a href="{{ url_for('post', post_id=post.id) }}" class="hover:text-white transition">View</a>
+          </div>
+        </div>
+      {% else %}
+        <div class="text-gray-500">No posts yet.</div>
+      {% endfor %}
+    </div>
+    <!-- 6. Placeholder -->
+    <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800 col-span-1 md:col-span-2 row-span-1 md:row-span-4 flex items-center justify-center">
+      <span class="text-gray-500">Placeholder</span>
+    </div>
+    <!-- Extra box for grid completion -->
+    <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800 col-span-1 md:col-span-3 row-span-1 md:row-span-9"></div>
   </div>
 </div>
 {% endblock %}

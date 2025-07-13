@@ -20,26 +20,49 @@
         <div class="py-8 px-6 flex flex-col h-full">
             <a class="text-gray-100 text-6xl mb-5 block font-playfair" href="/">Echo</a>
             <nav class="flex flex-col gap-2 mt-2 h-full">
+                <!--Top Buttons-->
                 {% if current_user.is_authenticated %}
                     <a class="bg-white text-black font-semibold px-3 py-2 rounded transition mb-2" href="{{ url_for('new_echo') }}">New Echo</a>
+                    <a class="text-white border border-2 px-3 py-2 rounded transition mb-2" href="#">My Scrolls</a>
                 {% endif %}
                 <a class="text-gray-300 hover:text-cyan-400 px-3 py-2 rounded transition" href="{{ url_for('latest') }}">Latest Scrolls</a>
                 <a class="text-gray-300 hover:text-cyan-400 px-3 py-2 rounded transition" href="{{ url_for('about') }}">About</a>
+                <div class="flex flex-col mt-auto">
+                <!--Bottom Ones-->
                 {% if current_user.is_authenticated %}
-                    <div class="flex flex-col mt-auto">
+
                         <a class="text-gray-300 hover:text-cyan-400 px-3 py-1 rounded transition" href="{{ url_for('account') }}">Account</a>
                         <a class="text-gray-300 hover:text-cyan-400 px-3 py-1 rounded transition" href="{{ url_for('logout') }}">Logout</a>
-                    </div>
                 {% else %}
                     <a class="text-gray-300 hover:text-cyan-400 px-3 py-2 rounded transition" href="{{ url_for('login') }}">Login</a>
                     <a class="text-gray-300 hover:text-cyan-400 px-3 py-2 rounded transition" href="{{ url_for('register') }}">Register</a>
                 {% endif %}
+                </div>
             </nav>
         </div>
     </aside>
-    <button id="sidebarToggle" class="fixed top-4 left-4 z-50 md:hidden bg-gray-600 text-white rounded-full p-2 shadow-lg focus:outline-none" onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-    </button>
+    <!-- Mobile Bottom Bar Navigation -->
+    <nav class="fixed bottom-0 left-0 w-full bg-black border-t border-gray-800 flex md:hidden overflow-x-auto z-50" style="-ms-overflow-style: none; scrollbar-width: none;">
+      <div class="flex flex-nowrap w-full" style="-ms-overflow-style: none; scrollbar-width: none;">
+        <a href="{{ url_for('home') }}" class="flex-shrink-0 px-6 py-3 text-white text-base font-semibold hover:bg-gray-900 transition whitespace-nowrap">Home</a>
+        <a href="{{ url_for('new_echo') }}" class="flex-shrink-0 px-6 py-3 text-white text-base font-semibold hover:bg-gray-900 transition whitespace-nowrap">New Echo</a>
+        <a href="{{ url_for('latest') }}" class="flex-shrink-0 px-6 py-3 text-white text-base font-semibold hover:bg-gray-900 transition whitespace-nowrap">Latest</a>
+        <a href="{{ url_for('about') }}" class="flex-shrink-0 px-6 py-3 text-white text-base font-semibold hover:bg-gray-900 transition whitespace-nowrap">About</a>
+        {% if current_user.is_authenticated %}
+          <a href="#" class="flex-shrink-0 px-6 py-3 text-white text-base font-semibold hover:bg-gray-900 transition whitespace-nowrap">My Scrolls</a>
+          <a href="{{ url_for('account') }}" class="flex-shrink-0 px-6 py-3 text-white text-base font-semibold hover:bg-gray-900 transition whitespace-nowrap">Account</a>
+          <a href="{{ url_for('logout') }}" class="flex-shrink-0 px-6 py-3 text-white text-base font-semibold hover:bg-gray-900 transition whitespace-nowrap">Logout</a>
+        {% else %}
+          <a href="{{ url_for('login') }}" class="flex-shrink-0 px-6 py-3 text-white text-base font-semibold hover:bg-gray-900 transition whitespace-nowrap">Login</a>
+          <a href="{{ url_for('register') }}" class="flex-shrink-0 px-6 py-3 text-white text-base font-semibold hover:bg-gray-900 transition whitespace-nowrap">Register</a>
+        {% endif %}
+      </div>
+    </nav>
+    <style>
+      nav::-webkit-scrollbar, nav > div::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
     <!-- Main Content -->
     <main class="md:ml-64 px-4 pt-8">
         <div class="max-w-4xl mx-auto">

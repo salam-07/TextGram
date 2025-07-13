@@ -2,7 +2,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 <div class="pt-4 pb-8">
-  <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-8 font-[Be_Vietnam_Pro] tracking-tight">Home</h1>
+  <h1 class="text-5xl md:text-6xl mb-8 font-vietnam">Home</h1>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
     <!-- Left Column: Trending Tags & Notifications -->
     <div class="flex flex-col gap-8">
@@ -34,7 +34,6 @@
         <ul class="space-y-2">
           {% for user in suggested_users %}
             <li class="flex items-center gap-2">
-              <img src="{{ url_for('static', filename='profile_pics/' ~ user.image_file) }}" class="w-7 h-7 rounded-full border border-gray-700" alt="{{ user.username }}">
               <span class="text-gray-200 text-sm">{{ user.username }}</span>
             </li>
           {% else %}
@@ -46,19 +45,12 @@
     <!-- Center Column: New Post Box & Latest Posts -->
     <div class="flex flex-col gap-8 md:col-span-2">
       <!-- Make New Post Box -->
-      <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800 mb-4">
-        <h2 class="text-xl font-semibold text-white mb-4">Make a New Echo</h2>
-        <form method="POST" action="{{ url_for('new_echo') }}" class="flex flex-col gap-4">
-          <textarea name="content" rows="3" class="bg-gray-900 text-gray-100 rounded-lg p-3 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-white resize-none" placeholder="What's on your mind?" required></textarea>
-          <button type="submit" class="bg-white text-black font-semibold px-4 py-2 rounded-lg shadow hover:bg-gray-200 transition">Post</button>
-        </form>
-      </div>
+    
       <!-- Latest Posts -->
       <div class="grid grid-cols-1 gap-6">
         {% for post in latest_posts %}
         <div class="bg-black rounded-xl shadow-lg p-6 border border-gray-800">
           <div class="flex items-center gap-4 mb-2">
-            <img src="{{ url_for('static', filename='profile_pics/' ~ post.author.image_file) }}" class="w-10 h-10 rounded-full border border-gray-700" alt="{{ post.author.username }}">
             <div>
               <span class="text-white font-semibold">{{ post.author.username }}</span>
               <span class="text-gray-400 text-xs ml-2">{{ post.date_posted.strftime('%b %d, %Y') }}</span>
